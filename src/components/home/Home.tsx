@@ -9,10 +9,11 @@ import ReactFlow, {
   Controls,
   Connection,
   Edge,
+  ReactFlowInstance,
 } from "reactflow";
 import "reactflow/dist/style.css";
 
-import Sidebar from "./Sidebar";
+import { Sidebar } from "@components";
 
 import "./home.css";
 
@@ -32,7 +33,8 @@ const Home = () => {
   const reactFlowWrapper = useRef(null);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-  const [reactFlowInstance, setReactFlowInstance] = useState ();
+  const [reactFlowInstance, setReactFlowInstance] =
+    useState<ReactFlowInstance>();
 
   const onConnect = useCallback(
     (params: Edge | Connection) => setEdges((eds) => addEdge(params, eds)),
@@ -69,7 +71,14 @@ const Home = () => {
         x: event.clientX,
         y: event.clientY,
       });
-      const newNode = {
+      const newNode: {
+        id: string;
+        type: any;
+        position: any;
+        data: {
+          label: string;
+        };
+      } = {
         id: getId(),
         type,
         position,
